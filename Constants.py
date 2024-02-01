@@ -18,6 +18,7 @@ kStd_num_columns = 14
 kDR = "DR"
 kCR = "CR"
 kJELines = 2
+kMonthsInYear = 12
 
 kCategory = "Category"
 
@@ -75,6 +76,8 @@ kInCapSWAmortTermIndex = 17
 kInNewClientDaysIndex = 18
 kInClientCollectionDays = 19
 kInNewContractLength = 20
+kBaseCommissionRate = 21
+kMonthsLookbackChurn = 22
 
 #Accounts tab
 kInternalAccount = "Internal Only-"
@@ -256,6 +259,7 @@ kChurnOutput = "Churn Outputs"
 kChurnOccuranceSummary = "Churn Occurance Summary"
 kChurnInvoiceSummary = "Churn Invoice Summary"
 kChurnPercentages = "Churn Percentages"
+kChurnZero = 0.00
 
 
 kCommMRR = "MRR"

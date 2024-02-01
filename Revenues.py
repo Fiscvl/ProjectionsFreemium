@@ -3,8 +3,8 @@ from msilib.schema import Class
 from dateutil.relativedelta import *
 #from utilities import *
 import warnings
-
 import pandas as pd
+
 from Constants import *
 from Formats import *
 from Collections import *
@@ -408,7 +408,7 @@ class CRevenues():
                             
                     #Add Contract Line
 
-                    churn = self.churn.getProductChurn(product)
+                    churn = self.churn.getProductChurn(product)/term*kMonthsInYear
                     invoice_churn = round((invoice_amt * (1 - churn ) ** renewal), 2)
                     mrr_churn = round((mrr * (1 - churn ) ** renewal), 2)
                     
@@ -523,8 +523,8 @@ class CRevenues():
 
                     product = row[kProductNameIndex]
                     product_churn = self.churn.getProductChurn(product)
-                    total_after_churn = invoice_amount  * ((1 - product_churn) ** renewal_number)
-                    mrr_after_churn = mrr * ((1 - product_churn) ** renewal_number)
+                    total_after_churn = invoice_amount  * ((1 - product_churn) ** renewal_number/new_client_term*kMonthsInYear)
+                    mrr_after_churn = mrr * ((1 - product_churn) ** renewal_number/new_client_term*kMonthsInYear)
 
                     data_row[kNewMRRAmtIndex] = round(mrr_after_churn * row[kProductPercentIndex] , 2)
                     data_row[kNewInvoiceAmtIndex] = round(total_after_churn * row[kProductPercentIndex] , 2)
