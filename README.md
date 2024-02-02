@@ -72,7 +72,15 @@ Churn - if there is a history of invoices as noted above you can calculate the c
 Commissions - the amount of commissions for a specific contract is calculated for the three revenue components based on the table in the inputs file - 'RevCommissions'.  This has three rows - one for each component.  It also provides a choice on how the commissions are calculated - when collect, by mmr, or when invoiced.  There is also a percentage for the initial contract (higher usually) and for renewals.  Note there is no initial percentage for Existing contracts - we assume the commission has already been paid.
 
 Churn - Churn examines the last 'n' months (n is set in Churn Months Lookback and its default is 24 months).  It calculates the product churn for that period.  Churn is defined as the loss of a client for 2 or more months for a specific client-product pair.  Churn output is calculated on a yearly basis.  Thus, the calculated percentage is scaled to "Churn Months Lookback/12".  If no churn is calculated the churn of a specific contract uses the "Default churn" percentage (which is assumed to be a yearly percentage).
-
+	
 	All churn items for future contracts and new contracts are annualized.
 
+
+The above calculations are found in the ouputs folder.
+	
+	Churn.xlsx
+	Collections.xlsx
+	The commissions tab is found in each of the revenue components; Existing, Renewals and New.
+
+	
 

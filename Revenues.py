@@ -523,8 +523,8 @@ class CRevenues():
 
                     product = row[kProductNameIndex]
                     product_churn = self.churn.getProductChurn(product)
-                    total_after_churn = invoice_amount  * ((1 - product_churn) ** renewal_number/new_client_term*kMonthsInYear)
-                    mrr_after_churn = mrr * ((1 - product_churn) ** renewal_number/new_client_term*kMonthsInYear)
+                    total_after_churn = invoice_amount  * ((1 - product_churn) ** renewal_number/inputs.new_client_term*kMonthsInYear)
+                    mrr_after_churn = mrr * ((1 - product_churn) ** renewal_number/inputs.new_client_term*kMonthsInYear)
 
                     data_row[kNewMRRAmtIndex] = round(mrr_after_churn * row[kProductPercentIndex] , 2)
                     data_row[kNewInvoiceAmtIndex] = round(total_after_churn * row[kProductPercentIndex] , 2)
