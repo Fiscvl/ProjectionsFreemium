@@ -152,6 +152,7 @@ class CSetup():
         self.amort_comp_term = (inputs_row[kFirst][kInCapSWAmortTermIndex])
         self.new_client_days = (inputs_row[kFirst][kInNewClientDaysIndex])
         self.new_client_term = (inputs_row[kFirst][kInNewContractLength])
+        self.ChurnMonthsLookback = (inputs_row[kFirst][kMonthsLookbackChurn])
 
         column_date = pd.to_datetime(self.start_date)
         

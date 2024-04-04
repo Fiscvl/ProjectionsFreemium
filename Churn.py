@@ -33,9 +33,13 @@ class CChurn():
         excel_book = (inputs.full_path_input + kRev_input_file)
         df = pd.read_excel(excel_book, kExisting)
 
+        months_lookback = inputs.ChurnMonthsLookback
+        months_lookback_delta = relativedelta(months=-months_lookback, days=1)
+        churn_start_date = inputs.projections_date + months_lookback_delta
+        #print("Start date type : ", type(inputs.start_date))
         indexAmount = df[ (df['Amount'] <= 0) ].index
         df.drop(indexAmount , inplace=True)
-        indexStart = df[df['Recognition End'] < inputs.start_date].index
+        indexStart = df[df['Recognition End'] < churn_start_date].index
         df.drop(indexStart , inplace=True)
         indexEnd = df[df['Recognition Start'] > inputs.projections_date].index
         df.drop(indexEnd , inplace=True)
@@ -111,7 +115,7 @@ class CChurn():
         df_invoice_summary = df.copy(deep=True)
         df_invoice_summary.drop([kChurnOutStart, kChurnOutEnd, kChurnOutMRR, kChurnOutInvoicesEnd, kChurnOutSameInvoice, kChurnOutEndInvoice, kChurnOutEndInvoiceChurn, kChurnOutProductChurn], axis=1, inplace=True)
 
-        df_invoice_summary = df_invoice_summary[(df_invoice_summary[kChurnOutMidPoint] >= inputs.dates.start_date) & (df_invoice_summary[kChurnOutMidPoint] <= inputs.dates.projections_date)]
+        df_invoice_summary = df_invoice_summary[(df_invoice_summary[kChurnOutMidPoint] >= churn_start_date) & (df_invoice_summary[kChurnOutMidPoint] <= inputs.dates.projections_date)]
         invoice_groupby = df_invoice_summary.groupby([kChurnOutProduct], as_index = False)[kChurnOutOverallChurn].count()
         invoice_groupby = invoice_groupby.rename({kChurnOutOverallChurn: kChurnOutInvoiceCount}, axis=1)
         
@@ -119,7 +123,8 @@ class CChurn():
         df_churn_summary = df_churn_summary[df_churn_summary[kChurnOutOverallChurn] == True]
         churn_groupby = df_churn_summary.groupby([kChurnOutProduct], as_index = False)[kChurnOutOverallChurn].count()
 
-        churn_groupby[kChurnOutChurnPercent] = churn_groupby[kChurnOutOverallChurn]/invoice_groupby[kChurnOutInvoiceCount]/inputs.months_actuals*12
+        churn_groupby[kChurnOutChurnPercent] = churn_groupby[kChurnOutOverallChurn]/invoice_groupby[kChurnOutInvoiceCount]/months_lookback*kMonthsInYear
+
 
         invoice_groupby.to_excel(writer, sheet_name = kChurnOccuranceSummary, index = False)
         churn_groupby.to_excel(writer, sheet_name = kChurnInvoiceSummary, index = False)
@@ -218,6 +223,6 @@ class CChurn():
 
         except:
             #new client, or no data - use etimate from in
-            print("Couldn't find the Product in Product list", clientID)
-
-        return churn
+            print("Couldn't find the Product in Product list", product)
+            #then reurn the default chrun % from the inputs
+            return inputs.churn
