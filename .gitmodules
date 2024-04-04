@@ -1,0 +1,3 @@
+[submodule "Expenses"]
+	path = Expenses
+	url = https://github.com/fiscvl/Expenses
